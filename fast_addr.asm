@@ -30,8 +30,8 @@
 
         MOV R2,        ; Length of longest operand
 
-        MOV R0, #40H   ; #40H bit
-        MOV R1, #48H   ; #70H bit
+        MOV R0, #40H
+        MOV R1, #48H
         MOV A, R2
         MOV R5, A      ; length of operands stored in R2
 
@@ -68,29 +68,29 @@ LOAD:   MOV R4, @R0    ; temp hold for byte of R6 data
         DJNZ R5, LOAD
 
         MOV A, R2      ; reset R5
-        MOV B, #8H
-        MUL AB         ; switch to bit counter
-        MOV R5, A      ; load counter with length*8
+        MOV R5, A
         CLR C          ; C will be used as Ci in boolean equation
-        MOV R0, #040H  ; bit addr
-        MOV R1, #070H  ; bit addr
+        MOV R0, #040H
+        MOV R1, #048H
 
-CARRY:
-AND:    MOV A, @R0
+
+CARRY:  MOV A, @R0
+        MOV R3, A
+        MOV A, @R1
         MOV R4, #8H    ; set counter for 8 rotations
-        ANL C, A.0     ; intermediate = Ci AND P(i+1)
-        RL A           ; rotate to next bit
-        DJNZ R4, AND
-        MOV @R0, A
+BYTE:   ANL C, A.0     ; intermediate = Ci AND P(i+1)
+        ORL R3.0, C
+        MOV C, R3.0    ; save Ci into C as well as R3.0
+        RL A           ; rotate P byte
+        MOV @R1        ; store P byte in mem
+        MOV A, R3      ; move G/C to A for rotation
+        RL A           ; rotate G/C byte
+        MOV R3, A      ; replace byte in R3
+        MOV A, @R1     ; reload P from mem
+        DJNZ R4, BYTE  ; repeat for whole byte
+        MOV A, R3
+        MOV @R0, A     ; replace C/G in memory
 
-
-OR:     MOV A, @R1
-        MOV R4, #8H    ; set counter for 8 rotations
-        ORL C, A.0     ; C(i+1) = intermediate OR G(i+1)
-        RL A           ; rotate to next bit
-        DJNZ R4, OR
-        MOV @R1, A
-        
         INC R0
         INC R1
         DJNZ R5, CARRY
@@ -103,8 +103,8 @@ SUM:    MOV A, @R0
         DJNZ R5, SUM
         CLR TR1        ; stop timer
 
-TIME:   MOV SBUF, TH1
-        MOV SBUF, TL1
+TIME:   MOV SBUF, TH1  ; output high byte of time
+        MOV SBUF, TL1  ; output low byte of time
 
         MOV R0, #48H   ; reset R0 to beginning of result string
 OUT:    MOV SBUF, @R0  ; output byte of result
