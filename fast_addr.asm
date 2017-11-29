@@ -35,18 +35,19 @@
         MOV A, R2
         MOV R5, A      ; length of operands stored in R2
 
+SETUP:  MOV SCON, #10000010B
         MOV TMOD, #00010000B
         MOV TL1, #00H  ; start timer at 0
         MOV TLH, #00H  ; start timer at 0
 
-INPUTA: MOV P1, @R0    ; output byte of A
+INPUTA: MOV SBUF, @R0  ; output byte of A
         INC R0         ; move to next byte
         DJNZ R5, INPUTA
         MOV R0, #40H   ; reset to beginning of A
 
         MOV A, R2      ; reset counter
         MOV R5, A
-INPUTB: MOV P1, @R1    ; output byte of B
+INPUTB: MOV SBUF, @R1  ; output byte of B
         INC R1
         DJNZ R5, INPUTB
         MOV R1, #48H   ; reset to beginning of B
@@ -74,17 +75,25 @@ LOAD:   MOV R4, @R0    ; temp hold for byte of R6 data
         MOV R0, #040H  ; bit addr
         MOV R1, #070H  ; bit addr
 
-CARRY:  ANL C, @R0     ; intermediate = Ci AND P(i+1)
-        ORL C, @R1     ; C(i+1) = intermediate OR G(i+1)
-        MOV @R1, C     ; store C(i+1) in carry string
-        INC R0         ; move to next bit of P
-        INC R1         ; move to next bit of G
-        DJNZ R5, CARRY
+CARRY:
+AND:    MOV A, @R0
+        MOV R4, #8H    ; set counter for 8 rotations
+        ANL C, A.0     ; intermediate = Ci AND P(i+1)
+        RL A           ; rotate to next bit
+        DJNZ R4, AND
+        MOV @R0, A
 
-        MOV R1, #40H   ; reload R3 with start of carry string
-        MOV R0, #48H   ; reload R6 with start of P
-        MOV A, R2
-        MOV R5, A      ; reload counter with length
+
+OR:     MOV A, @R1
+        MOV R4, #8H    ; set counter for 8 rotations
+        ORL C, A.0     ; C(i+1) = intermediate OR G(i+1)
+        RL A           ; rotate to next bit
+        DJNZ R4, OR
+        MOV @R1, A
+        
+        INC R0
+        INC R1
+        DJNZ R5, CARRY
 
 SUM:    MOV A, @R0
         XRL A, @R1
@@ -94,8 +103,11 @@ SUM:    MOV A, @R0
         DJNZ R5, SUM
         CLR TR1        ; stop timer
 
-TIME:   ; output time on serial
+TIME:   MOV SBUF, TH1
+        MOV SBUF, TL1
 
         MOV R0, #48H   ; reset R0 to beginning of result string
-OUT:    ; output sum
+OUT:    MOV SBUF, @R0  ; output byte of result
+        INC R0
+        DJNZ R5, OUT
         RET            ; result string pointed to by R6
