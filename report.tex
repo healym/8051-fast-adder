@@ -1,25 +1,12 @@
-\documentclass[final]{ieee}
+\documentclass[journal]{IEEEtran}
 \usepackage{graphics}
 
 \begin{document}
 
 
-\title[journal_ex]{Implementation of a Carry Lookahead Fast Adder}
-\author[mcw]{
-Matthew Healy\member{Member} \\
-\authorinfo{
-     email: \mbox{mhealy@mst.edu}}
-}
-\author[mcw]{
-Jaxson Johnston\member{Member} \\
- \authorinfo{
-	  email: \mbox{mhealy@mst.edu}}
-}
-\author[mcw]{
-Lukas Grbesa\member{Member} \\
- \authorinfo{
-	  email: \mbox{mhealy@mst.edu}}
-}
+\title{Implementation of a Carry Lookahead Fast Adder}
+\author{Matthew Healy}
+
 
 
 
@@ -33,61 +20,8 @@ with HTML: you can specify where text effects begin, and where they end.
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
-Here is the introduction.
-Since there is no blank line between these first 3 sentences, they are
-treated as one paragraph.
-Here is a vertical space (of 0.3 inches):
-\vspace{.3in}
 
-And here is a \hspace{.3in}horizontal space (of 0.3 inches).
-
-A blank line means that the last paragraph is over, and it is time to start
-a new one.
-
-You can have text in {\it italics} font, or in {\bf bold} font,
-\underline{underlined}, and even $\overline{overlined}$.
-What if you want overlined text, without italics? This can
-be done by using \verb"mathrm" in the
-$\overline{\mathrm{overlined}}$ specification.
-
-Citing a reference: This is a book about VLSI \cite{Weste93}.
-Also, the references contain a good conference paper \cite{LiY88},
-and a good journal article \cite{BiS92}.
-
-
-\begin{table}[!hbt]
-\begin{center}
-  \caption{Table captions go above tables.}
-  \vspace{0.2in}
-  \begin{tabular}{|r|c|c|c|}
-     \hline
- & runs & hits & errors  \\
-     \hline
-Cardinals  & 2 & 2 & 1  \\
-Panthers & 4 & 8 & 0  \\
-Tigers  & 2 & 3 & 2  \\
-Braves  & 3 & 10 & 3  \\
-     \hline
-  \end{tabular}
-  \label{tab:example_tab}
-\end{center}
-\end{table}
-
-What if you want to include a figure?
-Here is an example, figure~\ref{fig:phasor1}, that is saved in
-encapsulated postscript format.
-
-\begin{figure}[!hbt]
-  \centering
-    \scalebox{.9}{\includegraphics{phasor1.eps}}
-  \caption{Here is an example vector.}
-  \label{fig:phasor1}
-\end{figure}
-
-
-Skip a lot of space  \bigskip  vertically.
-
-\section{Here is some Computer Code}\label{sec:code}
+\section{Source Code}\label{sec:code}
 
 I like using the \verb"verbatim" specification for computer code.
 For example, here is something that appears in several
@@ -132,54 +66,7 @@ languages:
 
         MOV R6, #48H   ; reset R6 to beginning of result string
         RET            ; result string pointed to by R6
-
 \end{verbatim}
-
-See how it makes the code stand out? I think it makes it
-much easier to read, too.
-
-\section{Filler}
-
-It is always a good idea to have text between a section header and
-a subheading.
-
-\subsection{Sentences About Nothing}
-
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-{\bf I inserted a ``newpage'' command here to balance the columns.}
-
-\newpage
-
-\subsection{More About Nothing}
-
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-
-This sentence does not really say anything important, but it does take up space.
-This sentence does not really say anything important, but it does take up space.
-
-
 
 
 % Now here is the reference section.
