@@ -42,7 +42,10 @@ SETUP:  MOV SCON, #10000010B
 
 INPUTA: JNB TI, $      ; wait until ready to transmit
         CLR TI
-        MOV SBUF, @R0  ; output byte of A
+        MOV A, @R0
+        MOV C, P
+        MOV TB8, C     ; set odd parity bit
+        MOV SBUF, A    ; output byte of A
         INC R0         ; move to next byte
         DJNZ R5, INPUTA
         MOV R0, #40H   ; reset to beginning of A
@@ -51,7 +54,10 @@ INPUTA: JNB TI, $      ; wait until ready to transmit
         MOV R5, A
 INPUTB: JNB TI, $      ; wait until ready to transmit
         CLR TI
-        MOV SBUF, @R1  ; output byte of B
+        MOV A, @R1
+        MOV C, P
+        MOV TB8, C     ; set odd parity bit
+        MOV SBUF, A    ; output byte of B
         INC R1
         DJNZ R5, INPUTB
         MOV R1, #48H   ; reset to beginning of B
@@ -109,15 +115,24 @@ SUM:    MOV A, @R0
 
 TIME:   JNB TI, $      ; wait until ready to transmit
         CLR TI
-        MOV SBUF, TH1  ; output high byte of time
+        MOV A, TH1
+        MOV C, P
+        MOV TB8, C     ; set odd parity bit
+        MOV SBUF, A    ; output high byte of time
         JNB TI, $      ; wait until ready to transmit
         CLR TI
-        MOV SBUF, TL1  ; output low byte of time
+        MOV A, TL1
+        MOV C, P       ; set odd parity bit
+        MOV TB8, C
+        MOV SBUF, A    ; output low byte of time
 
         MOV R0, #48H   ; reset R0 to beginning of result string
 OUT:    JNB TI, $      ; wait until ready to transmit
         CLR TI
-        MOV SBUF, @R0  ; output byte of result
+        MOV A, @R0
+        MOV C, P
+        MOV TB8, C     ; set odd parity bit
+        MOV SBUF, A    ; output byte of result
         INC R0
         DJNZ R5, OUT
         RET
