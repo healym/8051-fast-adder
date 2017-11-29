@@ -39,14 +39,22 @@ building a hardware model of a carry lookahead adder.
 
 \section{Results and Discussion}\label{sec:discuss}
 
-Before any assembly code was written, the group considered several different
-methods to create an efficient carry lookahead adder. Before any discussion
-could be had about how to create a carry look-ahead, we had to understand
-how a regular full adder works and a ripple carry adder, in order to
-understand how to make a more efficient adder. Once we understood the
-functionality and flaws of each adder, we were ready to create a more
-efficient adder. Even though we understood the basic approach on how to
-make a more efficient adder, it took multiple tries to get our desired code.
+By first generating our Propogate($P$) and Generate($G$) strings from the input,
+and then stepping through our carry input and deriving each bit from the
+$P$ and $G$ strings and the previous carry bit, we emulate the stages of
+operation of a carry lookahead adder.
+
+The creation of the $P$ and $G$ strings solely from the input strings emulates
+the stage in which each bit of each input is XORed and ANDed together, to create
+the $P$ and $G$ terms for each bit. This would be done in hardware with blocks
+of two logic gates all operating in parallel, and would take approximately
+$2\Delta t$ to complete.
+
+The next stage, wherein the $P$ and carry bit are XORed together to create the
+sum, is emulated by a loop that XORs bytes of the carry string with bytes of
+the $P$ string. While this adds another n time in the software solution, it
+would implement only another $2\Delta t$ in a hardware solution, since it would
+bo only two more logic gates for each bit, all operating in parallel.
 
 \subsection{Pseudocode}\label{sec:pseudo}
 \begin{verbatim}
@@ -81,10 +89,6 @@ rather than bits.
 \section{Summary and Conclusion}
 
 \section{Source Code}\label{sec:code}
-
-I like using the \verb"verbatim" specification for computer code.
-For example, here is something that appears in several
-languages:
 
 \begin{verbatim}
         MOV R3, #40H   ; #10H bit
