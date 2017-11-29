@@ -1,9 +1,9 @@
 ; kiel compiler
 
-ORG YYYY
-        MOV R3, #40H ; #10H bit
-        MOV R6, #48H ; #40H bit
-        MOV R7, #50H ; #70H bit
+        MOV R3, #40H   ; #10H bit
+        MOV R6, #48H   ; #40H bit
+        MOV R7, #50H   ; #70H bit
+        MOV R5, R2     ; length of operands stored in R2
 
   LOAD: MOV R4, @R6    ; temp hold for byte of R6 data
         XRL @R6, @R7   ; propagate
@@ -12,7 +12,8 @@ ORG YYYY
         INC R7
         DNJZ R5, LOAD
 
-        MUL R5, #8H    ; need to set R5***
+        MOV R5, R2     ; reset R5
+        MUL R5, #8H    ; switch to bit counter
         MOV R5, A
         CLR C
         MOV R6, #040H  ; bit addr
