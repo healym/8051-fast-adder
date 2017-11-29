@@ -1,4 +1,14 @@
-; kiel compiler
+;      Author: Matthew Healy   <mhealy@mst.edu>
+;              Jaxson Johnston <jnjt37@mst.edu>
+;              Lukas Grbesa    <lgqq3@mst.edu>
+;       Group: NULL
+;        Date: 29 November 2017
+;     License: MIT License
+; Description: This program simulates the functionality of a
+;              carry lookahead fast adder using an 8051 microcontroller.
+;              Since this is a software simulation, it does not perform as
+;              quickly as an implementation in logic gates, but it serves
+;              as a proof-of-concept.
 
         MOV R3, #40H   ; #10H bit
         MOV R6, #48H   ; #40H bit
