@@ -40,14 +40,18 @@ SETUP:  MOV SCON, #10000010B
         MOV TL1, #00H  ; start timer at 0
         MOV TLH, #00H  ; start timer at 0
 
-INPUTA: MOV SBUF, @R0  ; output byte of A
+INPUTA: JNB TI, $      ; wait until ready to transmit
+        CLR TI
+        MOV SBUF, @R0  ; output byte of A
         INC R0         ; move to next byte
         DJNZ R5, INPUTA
         MOV R0, #40H   ; reset to beginning of A
 
         MOV A, R2      ; reset counter
         MOV R5, A
-INPUTB: MOV SBUF, @R1  ; output byte of B
+INPUTB: JNB TI, $      ; wait until ready to transmit
+        CLR TI
+        MOV SBUF, @R1  ; output byte of B
         INC R1
         DJNZ R5, INPUTB
         MOV R1, #48H   ; reset to beginning of B
@@ -103,11 +107,17 @@ SUM:    MOV A, @R0
         DJNZ R5, SUM
         CLR TR1        ; stop timer
 
-TIME:   MOV SBUF, TH1  ; output high byte of time
+TIME:   JNB TI, $      ; wait until ready to transmit
+        CLR TI
+        MOV SBUF, TH1  ; output high byte of time
+        JNB TI, $      ; wait until ready to transmit
+        CLR TI
         MOV SBUF, TL1  ; output low byte of time
 
         MOV R0, #48H   ; reset R0 to beginning of result string
-OUT:    MOV SBUF, @R0  ; output byte of result
+OUT:    JNB TI, $      ; wait until ready to transmit
+        CLR TI
+        MOV SBUF, @R0  ; output byte of result
         INC R0
         DJNZ R5, OUT
-        RET            ; result string pointed to by R6
+        RET
