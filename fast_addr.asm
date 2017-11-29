@@ -91,10 +91,10 @@ CARRY:  MOV B, @R0
 BITE:   ANL C, 0E0H    ; intermediate = Ci AND P(i+1)
         ORL C, 0F0H
         MOV 0F0H, C    ; save Ci into C as well as R3.0
-        RL A           ; rotate P byte
+        RR A           ; rotate P byte
         MOV @R1, A     ; store P byte in mem
         MOV A, B       ; move G/C to A for rotation
-        RL A           ; rotate G/C byte
+        RR A           ; rotate G/C byte
         MOV B, A       ; replace byte in R3
         MOV A, @R1     ; reload P from mem
         DJNZ R4, BITE  ; repeat for whole byte
@@ -104,6 +104,8 @@ BITE:   ANL C, 0E0H    ; intermediate = Ci AND P(i+1)
         INC R1
         DJNZ R5, CARRY
 
+        MOV A, R2
+        MOV R5, A
 SUM:    MOV A, @R0
         XRL A, @R1
         MOV @R0, A     ; compute final sum
