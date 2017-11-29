@@ -43,15 +43,14 @@ building a hardware model of a carry lookahead adder.
 \section{Results and Discussion}\label{sec:discuss}
 
 By first generating our Propogate($P$) and Generate($G$) strings from the input,
-and then stepping through our carry input and deriving each bit from the
+and then stepping through our carry string and deriving each bit from the
 $P$ and $G$ strings and the previous carry bit, we emulate the stages of
 operation of a carry lookahead adder.
 
-The creation of the $P$ and $G$ strings solely from the input strings emulates
-the stage in which each bit of each input is XORed and ANDed together, to create
-the $P$ and $G$ terms for each bit. This would be done in hardware with blocks
-of two logic gates all operating in parallel, and would take approximately
-$2\Delta t$ to complete.
+The $P$ string is created by XORing each pair of respective input bits, and the
+$G$ by ANDing together each pair of input bits. This would be done in hardware
+with blocks of two logic gates all operating in parallel, and would take
+approximately $2\Delta t$ to complete.
 
 The next stage, wherein the $P$ and carry bit are XORed together to create the
 sum, is emulated by a loop that XORs bytes of the carry string with bytes of
@@ -59,11 +58,11 @@ the $P$ string. While this adds another n time in the software solution, it
 would implement only another $2\Delta t$ in a hardware solution, since it would
 bo only two more logic gates for each bit, all operating in parallel.
 
-The following pseudocode\ref{alg:pseudo}
+Algorithm \ref{alg:pseudo}
 shows the basic implementation of this simulation:
 \begin{algorithm}[H]
-\label{alg:pseudo}
 \caption{Pseudocode for CLA Adder}
+\label{alg:pseudo}
 \begin{algorithmic}
 \State R3 $\rightarrow$ carry string
 \State R6 $\rightarrow$ Input A
@@ -96,9 +95,12 @@ only the constant in the time-complexity.
 
 \section{Summary and Conclusion}
 
+% this needs to be a more concise and digestable version of the results
+% and discussion section
+
 \section{Source Code}\label{sec:code}
 
-\lstinputlisting[language=Assembler, firstline=13]
+\lstinputlisting[language=Assembler, firstline=13, basicstyle=\tiny]
 {fast_addr.asm}
 
 \begin{thebibliography}{99}
