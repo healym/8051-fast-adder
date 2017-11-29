@@ -10,9 +10,26 @@
 ;              quickly as an implementation in logic gates, but it serves
 ;              as a proof-of-concept.
 
-        MOV R3, #40H   ; #10H bit
-        MOV R0, #48H   ; #40H bit
-        MOV R1, #50H   ; #70H bit
+        MOV 40H,
+        MOV 41H,
+        MOV 42H,
+        MOV 43H,
+        MOV 44H,
+        MOV 45H,
+        MOV 46H,
+        MOV 47H,
+
+        MOV 48H,
+        MOV 49H,
+        MOV 4AH,
+        MOV 4BH,
+        MOV 4CH,
+        MOV 4DH,
+        MOV 4EH,
+        MOV 4FH,
+
+        MOV R0, #40H   ; #40H bit
+        MOV R1, #48H   ; #70H bit
         MOV R5, R2     ; length of operands stored in R2
 
   LOAD: MOV R4, @R0    ; temp hold for byte of R6 data
@@ -32,7 +49,6 @@
  CARRY: ANL C, @R0     ; intermediate = Ci AND P(i+1)
         ORL C, @R1     ; C(i+1) = intermediate OR G(i+1)
         MOV @R1, C     ; store C(i+1) in carry string
-        INC R3         ; move to next bit of carry string
         INC R0         ; move to next bit of P
         INC R1         ; move to next bit of G
         DJNZ R5, CARRY
