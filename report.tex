@@ -4,14 +4,21 @@
 \begin{document}
 
 
-\title[journal_ex]{My Example LaTeX Journal Paper}
-   \author[mcw]{%
-   Michael Weeks\member{Member} \\
-    \authorinfo{%
-         M. Weeks is with the Computer Science Department,
-         Georgia State University,
-         Atlanta, Georgia, USA 30303,
-         email: \mbox{mweeks@nospam.org}}
+\title[journal_ex]{Implementation of a Carry Lookahead Fast Adder}
+\author[mcw]{
+Matthew Healy\member{Member} \\
+\authorinfo{
+     email: \mbox{mhealy@mst.edu}}
+}
+\author[mcw]{
+Jaxson Johnston\member{Member} \\
+ \authorinfo{
+	  email: \mbox{mhealy@mst.edu}}
+}
+\author[mcw]{
+Lukas Grbesa\member{Member} \\
+ \authorinfo{
+	  email: \mbox{mhealy@mst.edu}}
 }
 
 
@@ -87,62 +94,49 @@ For example, here is something that appears in several
 languages:
 
 \begin{verbatim}
-    for (int i=0; i< MAXVALUE-1; i++)
-    {
-        if (array[i] < array[i+1])
-        {
-            temp = array[i];
-            array[i] = array[i+1];
-            array[i+1] = temp;
-        }
-    }
+        MOV R3, #40H   ; #10H bit
+        MOV R6, #48H   ; #40H bit
+        MOV R7, #50H   ; #70H bit
+        MOV R5, R2     ; length of operands stored in R2
+
+  LOAD: MOV R4, @R6    ; temp hold for byte of R6 data
+        XRL @R6, @R7   ; propagate
+        ANL @R7, R4    ; generate
+        INC R6         ; move to next bit of P
+        INC R7         ; move to next bit of G
+        DNJZ R5, LOAD
+
+        MOV R5, R2     ; reset R5
+        MUL R5, #8H    ; switch to bit counter
+        MOV R5, A      ; load counter with length*8
+        CLR C          ; C will be used as Ci in boolean equation
+        MOV R6, #040H  ; bit addr
+        MOV R7, #070H  ; bit addr
+
+ CARRY: ANL C, @R6     ; intermediate = Ci AND P(i+1)
+        ORL C, @R7     ; C(i+1) = intermediate OR G(i+1)
+        MOV @R3, C     ; store C(i+1) in carry string
+        INC R3         ; move to next bit of carry string
+        INC R6         ; move to next bit of P
+        INC R7         ; move to next bit of G
+        DJNZ R5, CARRY
+
+        MOV R3, #40H   ; reload R3 with start of carry string
+        MOV R6, #48H   ; reload R6 with start of P
+        MOV R5, R2     ; reload counter with length
+
+   SUM: XRL @R6 @R3    ; compute final sum
+        INC R6         ; move to next bit of P
+        INC R3         ; move to next bit of Carry string
+        DJNZ R5, SUM
+
+        MOV R6, #48H   ; reset R6 to beginning of result string
+        RET            ; result string pointed to by R6
+
 \end{verbatim}
 
 See how it makes the code stand out? I think it makes it
 much easier to read, too.
-
-\section{Here is some Math}\label{sec:math}
-This is different from the previous section, section~\ref{sec:intro}.
-This section gives some examples of Math.
-
-Using superscript:  2$^{n}$
-
-Using subscript: x$_{0}$
-
-If you use a character, but LaTeX complains about it, try putting a
-back-slash before it. For example,
-f = x\^{}y  uses the carat character.
-If you want to end a line, use 2 back-slashes.
-If you want the backslash character $\backslash$ in your document,
-this can be done, too.
-
-Here's an equation:
-
-\[ M^\bot = \{ f \in V' : f(m) = 0 \mbox{ for all } m \in M \}.\]
-
-Here's d2u/dx2 : (use the dollar sign before and after math stuff)
-
-$ \frac{d^2 u}{dx^2} $
-
-Here's another equation:
-
-\[ \lim_{x \to 0} \frac{3x^2 +7x^3}{x^2 +5x^4} = 3.\]
-
-Here's a summation:
-\[ \sum_{k=1}^n k^2 = \frac{1}{2} n (n+1).\]
-
-and an integral:
-\[ \int_a^b f(x)\,dx.\]
-
-Here are some Greek letters:
-$ \Delta \Psi \Phi $
-and some lower case ones:
-$ \delta \psi \phi \omega \pi \sigma \mu $.
-
-For more info, see
-
-
-http://www.maths.tcd.ie/\~{}dwilkins/LaTeXPrimer/
 
 \section{Filler}
 
