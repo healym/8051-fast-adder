@@ -91,8 +91,8 @@ LOAD:   MOV A, @R0     ; temp hold for byte of R6 data
         MOV R1, A      ; point at least significant byte
 
 
-CARRY:  MOV B, @R0
-        MOV A, @R1
+CARRY:  MOV B, @R1
+        MOV A, @R0
         MOV R4, #8H    ; set counter for 8 rotations
 BITE:   ANL C, 0E0H    ; intermediate = Ci AND P(i+1)
         ORL C, 0F0H
