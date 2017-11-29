@@ -81,8 +81,14 @@ LOAD:   MOV A, @R0     ; temp hold for byte of R6 data
         MOV A, R2      ; reset R5
         MOV R5, A
         CLR C          ; C will be used as Ci in boolean equation
-        MOV R0, #040H
-        MOV R1, #048H
+        MOV A, R2
+        DEC A
+        ADD A, #40H
+        MOV R0, A      ; point at least significant byte
+        MOV A, R2
+        DEC A
+        ADD A, #48H
+        MOV R1, A      ; point at least significant byte
 
 
 CARRY:  MOV B, @R0
@@ -100,8 +106,8 @@ BITE:   ANL C, 0E0H    ; intermediate = Ci AND P(i+1)
         DJNZ R4, BITE  ; repeat for whole byte
         MOV @R0, B     ; replace C/G in memory
 
-        INC R0
-        INC R1
+        DEC R0
+        DEC R1
         DJNZ R5, CARRY
 
         MOV A, R2
