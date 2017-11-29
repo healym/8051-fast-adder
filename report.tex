@@ -1,5 +1,8 @@
 \documentclass[journal]{IEEEtran}
 \usepackage{graphics}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
 
 \begin{document}
 
@@ -25,7 +28,7 @@
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
-The idea for a carry lookahead adder was originally patented by Intel in 1957.
+The carry lookahead adder was originally patented by Intel\cite{patent} in 1957.
 As time passed and technology improved, this method of addition was shown
 to be even more useful than originally thought, as it allows for the quick
 computation of numbers that would take a non-insignificant amount of time
@@ -56,83 +59,47 @@ the $P$ string. While this adds another n time in the software solution, it
 would implement only another $2\Delta t$ in a hardware solution, since it would
 bo only two more logic gates for each bit, all operating in parallel.
 
-\subsection{Pseudocode}\label{sec:pseudo}
-\begin{verbatim}
-R3 -> carry string
-R6 -> Input A
-R7 -> Input B
+The following pseudocode\ref{alg:pseudo}
+shows the basic implementation of this simulation:
+\begin{algorithm}[H]
+\label{alg:pseudo}
+\caption{Pseudocode for CLA Adder}
+\begin{algorithmic}
+\State R3 $\rightarrow$ carry string
+\State R6 $\rightarrow$ Input A
+\State R7 $\rightarrow$ Input B
 
-Loop through bytes:
-	P = R6 XOR R7
-	G = R6 AND R7
+\ForAll{bytes $P_i\in P, G_i\in G, RX_i\in RX$}
+	\State $P \gets R6 \oplus R7$
+	\State $G \gets R6 \land R7$
+\EndFor
+\ForAll{bits $C_i\in C, P_i\in P, G_i\in G$}
+	\State $C \gets G \lor (P \land C)$
+\EndFor
 
-Loop through bits:
-	C = G OR (P AND C)
+\ForAll{bytes $SUM_i\in SUM, C_i\in C, P_i\in P$}
+	\State $SUM_i \gets C_i \oplus P_i$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
 
-Loop through bytes:
-	SUM = C XOR P
-\end{verbatim}
+\begin{figure}
+	\includegraphics{}
+	\caption{Input Size vs Computation Time}
+	\label{fig:time}
+\end{figure}
 
-The first attempt at writing the assembly code took multiple hours to create
-because the group was mostly trying to figure out how to create a piece of
-code that will create a functional carry look-ahead adder. Even though our
-code seemed to work, we noticed that if we tested it that it would not be
-faster than a ripple carry adder. The problem with our approach was that we
-were adding one bit at a time. Because we chose this method, there was
-extraneous use of the carry flag because the carry flag had to be used in
-every bit wise operation. Once we realized that our code was not as efficient
-as it needed to be, we started troubleshooting ways we could change our code
-to be more efficient. The answer we came up with was to store the data in
-multiple registers and execute it by using the XOR function on bytes,
-rather than bits.
+As can be seen in Fig. \ref{fig:time}, this software simulation falls far
+short of the speed of its hardware implementation. However, it does match very
+closely the speed of a ripple-carry add on the 8051 microcontroller, changing
+only the constant in the time-complexity.
 
 \section{Summary and Conclusion}
 
 \section{Source Code}\label{sec:code}
 
-\begin{verbatim}
-        MOV R3, #40H   ; #10H bit
-        MOV R6, #48H   ; #40H bit
-        MOV R7, #50H   ; #70H bit
-        MOV R5, R2     ; length of operands stored in R2
-
-  LOAD: MOV R4, @R6    ; temp hold for byte of R6 data
-        XRL @R6, @R7   ; propagate
-        ANL @R7, R4    ; generate
-        INC R6         ; move to next bit of P
-        INC R7         ; move to next bit of G
-        DNJZ R5, LOAD
-
-        MOV R5, R2     ; reset R5
-        MUL R5, #8H    ; switch to bit counter
-        MOV R5, A      ; load counter with length*8
-        CLR C          ; C will be used as Ci in boolean equation
-        MOV R6, #040H  ; bit addr
-        MOV R7, #070H  ; bit addr
-
- CARRY: ANL C, @R6     ; intermediate = Ci AND P(i+1)
-        ORL C, @R7     ; C(i+1) = intermediate OR G(i+1)
-        MOV @R3, C     ; store C(i+1) in carry string
-        INC R3         ; move to next bit of carry string
-        INC R6         ; move to next bit of P
-        INC R7         ; move to next bit of G
-        DJNZ R5, CARRY
-
-        MOV R3, #40H   ; reload R3 with start of carry string
-        MOV R6, #48H   ; reload R6 with start of P
-        MOV R5, R2     ; reload counter with length
-
-   SUM: XRL @R6 @R3    ; compute final sum
-        INC R6         ; move to next bit of P
-        INC R3         ; move to next bit of Carry string
-        DJNZ R5, SUM
-
-        MOV R6, #48H   ; reset R6 to beginning of result string
-        RET            ; result string pointed to by R6
-\end{verbatim}
-
-
-% Now here is the reference section.
+\lstinputlisting[language=Assembler, firstline=13]
+{fast_addr.asm}
 
 \begin{thebibliography}{99}
 
