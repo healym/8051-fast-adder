@@ -38,7 +38,7 @@
 SETUP:  MOV SCON, #10000010B
         MOV TMOD, #00010000B
         MOV TL1, #00H  ; start timer at 0
-        MOV TLH, #00H  ; start timer at 0
+        MOV TH1, #00H  ; start timer at 0
 
 INPUTA: JNB TI, $      ; wait until ready to transmit
         CLR TI
@@ -65,7 +65,8 @@ INPUTB: JNB TI, $      ; wait until ready to transmit
         SETB TR1       ; start timer
         MOV A, R2      ; init counter
         MOV R5, A
-LOAD:   MOV R4, @R0    ; temp hold for byte of R6 data
+LOAD:   MOV A, @R0     ; temp hold for byte of R6 data
+        MOV R4, A
         MOV A, @R0
         XRL A, @R1     ; propagate
         MOV @R0, A
@@ -88,10 +89,10 @@ CARRY:  MOV B, @R0
         MOV A, @R1
         MOV R4, #8H    ; set counter for 8 rotations
 BITE:   ANL C, 0E0H    ; intermediate = Ci AND P(i+1)
-        ORL 0F0H, C
-        MOV C, 0F0H    ; save Ci into C as well as R3.0
+        ORL C, 0F0H
+        MOV 0F0H, C    ; save Ci into C as well as R3.0
         RL A           ; rotate P byte
-        MOV @R1        ; store P byte in mem
+        MOV @R1, A     ; store P byte in mem
         MOV A, B       ; move G/C to A for rotation
         RL A           ; rotate G/C byte
         MOV B, A       ; replace byte in R3
