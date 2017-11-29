@@ -27,9 +27,14 @@
         INC R7         ; move to next bit of G
         DJNZ R5, CARRY
 
+        MOV R3, #40H   ; reload R3 with start of carry string
+        MOV R6, #48H   ; reload R6 with start of P
         MOV R5, R2     ; reload counter with length
+
    SUM: XRL @R6 @R3    ; compute final sum
         INC R6         ; move to next bit of P
         INC R3         ; move to next bit of Carry string
         DJNZ R5, SUM
-        RET            ; result is in what was P string
+
+        MOV R6, #48H   ; reset R6 to beginning of result string
+        RET            ; result string pointed to by R6
