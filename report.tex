@@ -20,12 +20,65 @@
 
 
 \begin{abstract}
-This is the abstract. You can use this file to start your own LaTeX file,
-and just delete the stuff you do not need. \LaTeX  is a lot like working
-with HTML: you can specify where text effects begin, and where they end.
+% write after results calculated
+
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
+The idea for a carry lookahead adder was originally patented by Intel in 1957.
+As time passed and technology improved, this method of addition was shown
+to be even more useful than originally thought, as it allows for the quick
+computation of numbers that would take a non-insignificant amount of time
+using the traditional ripple-carry method.
+
+Our goal in this project is to implement a simulation of a carry lookahead
+adder on the 8051 microcontroller as a proof of concept. Since execution is
+serial, this simulation will not be faster than the built-in adding operations,
+as we are unable to calculate multiple things at once, as we could were we
+building a hardware model of a carry lookahead adder.
+
+\section{Results and Discussion}\label{sec:discuss}
+
+Before any assembly code was written, the group considered several different
+methods to create an efficient carry lookahead adder. Before any discussion
+could be had about how to create a carry look-ahead, we had to understand
+how a regular full adder works and a ripple carry adder, in order to
+understand how to make a more efficient adder. Once we understood the
+functionality and flaws of each adder, we were ready to create a more
+efficient adder. Even though we understood the basic approach on how to
+make a more efficient adder, it took multiple tries to get our desired code.
+
+\subsection{Pseudocode}\label{sec:pseudo}
+\begin{verbatim}
+R3 -> carry string
+R6 -> Input A
+R7 -> Input B
+
+Loop through bytes:
+	P = R6 XOR R7
+	G = R6 AND R7
+
+Loop through bits:
+	C = G OR (P AND C)
+
+Loop through bytes:
+	SUM = C XOR P
+\end{verbatim}
+
+The first attempt at writing the assembly code took multiple hours to create
+because the group was mostly trying to figure out how to create a piece of
+code that will create a functional carry look-ahead adder. Even though our
+code seemed to work, we noticed that if we tested it that it would not be
+faster than a ripple carry adder. The problem with our approach was that we
+were adding one bit at a time. Because we chose this method, there was
+extraneous use of the carry flag because the carry flag had to be used in
+every bit wise operation. Once we realized that our code was not as efficient
+as it needed to be, we started troubleshooting ways we could change our code
+to be more efficient. The answer we came up with was to store the data in
+multiple registers and execute it by using the XOR function on bytes,
+rather than bits.
+
+\section{Summary and Conclusion}
 
 \section{Source Code}\label{sec:code}
 
