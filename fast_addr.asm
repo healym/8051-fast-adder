@@ -10,25 +10,25 @@
 ;              quickly as an implementation in logic gates, but it serves
 ;              as a proof-of-concept.
 
-        MOV 40H,         ; Input A
-        MOV 41H,
-        MOV 42H,
-        MOV 43H,
-        MOV 44H,
-        MOV 45H,
-        MOV 46H,
-        MOV 47H,
+        MOV 40H, #00H   ; Input A
+        MOV 41H, #00H
+        MOV 42H, #00H
+        MOV 43H, #00H
+        MOV 44H, #00H
+        MOV 45H, #00H
+        MOV 46H, #00H
+        MOV 47H, #00H
 
-        MOV 48H,        ; Input B
-        MOV 49H,
-        MOV 4AH,
-        MOV 4BH,
-        MOV 4CH,
-        MOV 4DH,
-        MOV 4EH,
-        MOV 4FH,
+        MOV 48H, #00H  ; Input B
+        MOV 49H, #00H
+        MOV 4AH, #00H
+        MOV 4BH, #00H
+        MOV 4CH, #00H
+        MOV 4DH, #00H
+        MOV 4EH, #00H
+        MOV 4FH, #00H
 
-        MOV R2,        ; Length of longest operand
+        MOV R2,  #8H   ; Length of longest operand in bytes
 
         MOV R0, #40H
         MOV R1, #48H
