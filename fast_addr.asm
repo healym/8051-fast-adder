@@ -84,22 +84,20 @@ LOAD:   MOV R4, @R0    ; temp hold for byte of R6 data
         MOV R1, #048H
 
 
-CARRY:  MOV A, @R0
-        MOV R3, A
+CARRY:  MOV B, @R0
         MOV A, @R1
         MOV R4, #8H    ; set counter for 8 rotations
-BYTE:   ANL C, A.0     ; intermediate = Ci AND P(i+1)
-        ORL R3.0, C
-        MOV C, R3.0    ; save Ci into C as well as R3.0
+BITE:   ANL C, 0E0H    ; intermediate = Ci AND P(i+1)
+        ORL 0F0H, C
+        MOV C, 0F0H    ; save Ci into C as well as R3.0
         RL A           ; rotate P byte
         MOV @R1        ; store P byte in mem
-        MOV A, R3      ; move G/C to A for rotation
+        MOV A, B       ; move G/C to A for rotation
         RL A           ; rotate G/C byte
-        MOV R3, A      ; replace byte in R3
+        MOV B, A       ; replace byte in R3
         MOV A, @R1     ; reload P from mem
-        DJNZ R4, BYTE  ; repeat for whole byte
-        MOV A, R3
-        MOV @R0, A     ; replace C/G in memory
+        DJNZ R4, BITE  ; repeat for whole byte
+        MOV @R0, B     ; replace C/G in memory
 
         INC R0
         INC R1
@@ -135,4 +133,4 @@ OUT:    JNB TI, $      ; wait until ready to transmit
         MOV SBUF, A    ; output byte of result
         INC R0
         DJNZ R5, OUT
-        RET
+        END
