@@ -139,21 +139,12 @@ only the constant in the time-complexity.
 
 \section{Summary and Conclusion}
 
-Upon testing we found that the way the carry lookahead adder has to be
-implemented to work in the 8051 it doesn't end up being any faster than simply
-adding the two values together. With that said we were still successful in
-creating and implementing the carry lookahead adder and if given access to
-different hardwaren we would be able to lower the execution time for the
+Upon testing we found that because the carry lookahead adder must be
+executed in serial, the simulation doesn't end up being any faster than simply
+adding the two values together. With that said, we were still successful in
+creating and implementing the carry lookahead adder, and, if given access to
+different hardware, we would be able to lower the execution time for the
 addition.
-
-Using the 8051, is seems that the implementation of a carry lookahead adder is
-the best way to increase the processing speed. The only other way that one could
-improve the processing time would be to use a multi-core processor and perform
-the evaluation of the generators and propagators in one core while another core
-evaluates the carries so that the sums can be calculated after only 2t. But with
-the hardware at our disposal this is the best that we can do.
-% this needs to be a more concise and digestable version of the results
-% and discussion section
 
 \section{Source Code}\label{sec:code}
 
@@ -162,15 +153,13 @@ the hardware at our disposal this is the best that we can do.
 
 \begin{thebibliography}{99}
 
-	@misc{patent,
-	  title={Parallel binary carry look-ahead adder system},
-	  author={Franz, S. and Dieter, S.},
-	  url={https://www.google.com/patents/US3700875},
-	  year={1972},
-	  month=oct \# "~24",
-	  publisher={Google Patents},
-	  note={US Patent 3,700,875}
-	}
+\bibitem{patent}
+  Franz, S. and Dieter, S.
+  Parallel binary carry look-ahead adder system.
+  [US Patent 3,700,875].
+  \\\texttt{https://www.google.com/patents/US3700875}
+  1972.
+}
 
 
 \end{thebibliography}
