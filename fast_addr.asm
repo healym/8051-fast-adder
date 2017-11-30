@@ -148,4 +148,9 @@ OUT:    JNB TI, $      ; wait until ready to transmit
         MOV SBUF, A    ; output byte of result
         INC R0
         DJNZ R5, OUT
+        
+FLUSH:  MOV A, #0FFH
+        MOV C, P
+        MOV TB8, C
+        MOV SBUF, A    ; output dummy byte to flush output
         END
