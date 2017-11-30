@@ -135,7 +135,7 @@ TIME:   JNB TI, $      ; wait until ready to transmit
         MOV TB8, C
         MOV SBUF, A    ; output low byte of time
 
-        MOV R0, #48H   ; reset R0 to beginning of result string
+        MOV R0, #40H   ; reset R0 to beginning of result string
 OUT:    JNB TI, $      ; wait until ready to transmit
         CLR TI
         MOV A, @R0
