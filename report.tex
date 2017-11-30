@@ -93,13 +93,37 @@ shows the basic implementation of this simulation:
 \end{algorithmic}
 \end{algorithm}
 
-\begin{figure}
-	\includegraphics{}
+\begin{table}
 	\caption{Input Size vs Computation Time}
-	\label{fig:time}
-\end{figure}
+	\label{tab:time}
+	\begin{tabular}{|r|r|l|l|}
+	\hline
+	\textbf{Operand 1} & \textbf{Operand 2} & \textbf{Sum} & \textbf{Time(clock pulses)}\\
+	\hline
+	$0x8A$ & $0x25$ & $0xAF$ & $0xA0$\\
+	\hline
+	$0x1FFF$ & $0xA222$ & $0xC111$ & $0x12E$\\
+	\hline
+	$0x3EFF$ & $0x8AAA$ & $0xC9A9$ & $0x12E$\\
+	\hline
+	$0x254621$ & $0xAAAAAA$ & $0xCFF0CB$ & $0x01D4$\\
+	\hline
+	$0x8532AA$ & $0x243699$ & $0xA96943$ & $0x01D5$\\
+	\hline
+	$0x23456789$ & $0x98765432$ & $0xBBBBBBBB$ & $0x026A$\\
+	\hline
+	$0xABABABAB$ & $0x11111111$ & $0xBCBCBCBC$ & $0x04C2$\\
+	\hline
+	$0xC1C1C1C1C1$ & $0x1C1C1C1C1C$ & $0xDDDDDDDDDD$ & $0x0300$\\
+	\hline
+	$0x123456789ABC$ & $0x123456789ABC$ & $0x2468ACF13578$ & $0x0396$\\
+	\hline
+	$0x1234567C1C1C1C$ & $0x11AAAAAA8532AA$ & $0x23DF0126A14EC6$ & $0x042E$\\
+	\hline
+	\end{tabular}
+\end{table}
 
-As can be seen in Fig. \ref{fig:time}, this software simulation falls far
+As can be seen in Fig. \ref{tab:time}, this software simulation falls far
 short of the speed of its hardware implementation. However, it does match very
 closely the speed of a ripple-carry add on the 8051 microcontroller, changing
 only the constant in the time-complexity.
