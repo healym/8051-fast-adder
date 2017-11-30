@@ -112,6 +112,8 @@ BITE:   ANL C, 0E0H    ; intermediate = Ci AND P(i+1)
         DEC R1
         DJNZ R5, CARRY
 
+        MOV R0, #40H   ; return to beginning of P
+        MOV R1, #48H   ; return to beginning of C/G
         MOV A, R2
         MOV R5, A
 SUM:    MOV A, @R0
