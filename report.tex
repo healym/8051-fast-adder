@@ -1,9 +1,12 @@
-\documentclass[journal]{IEEEtran}
+\documentclass{article}
 \usepackage{graphics}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{listings}
 \usepackage{float}
+\usepackage{setspace}
+
+\doublespacing
 
 \begin{document}
 
@@ -19,10 +22,19 @@
 	Grbe\`sa, Lukas
 	\texttt{lgqq3@mst.edu}\
 }
+\date{\today}
 
 \maketitle
 
+\pagebreak
 
+
+\tableofcontents
+
+\pagebreak
+
+\addcontentsline{toc}{section}{Abstract}
+\section*{Abstract}
 \begin{abstract}
 Carry lookahead adders are one of the most common fast-adder architectures
 used in high performance computing to date. They allow for arbitrarily large
@@ -36,6 +48,8 @@ serves as a proof of concept for a carry lookahead adder.
 
 \end{abstract}
 
+\pagebreak
+
 \section{Introduction}\label{sec:intro}
 The carry lookahead adder was originally patented by IBM\cite{patent} in 1972.
 As time passed and technology improved, this method of addition was shown
@@ -48,6 +62,8 @@ adder on the 8051 microcontroller as a proof of concept. Since execution is
 serial, this simulation will not be faster than the built-in adding operations,
 as we are unable to calculate multiple things at once, as we could were we
 building a hardware model of a carry lookahead adder.
+
+\pagebreak
 
 \section{Approach}\label{sec:approach}
 The carry value of a certain bit addition
@@ -96,6 +112,8 @@ We chose a fixed-baudrate serial mode, since doing any form of variable
 baudrate would require the use of another timer, and unnecessarily complicate
 the program further.
 
+\pagebreak
+
 \section{Results and Discussion}\label{sec:discuss}
 
 By first generating our Propogate($P$) and Generate($G$) strings from the input,
@@ -113,6 +131,8 @@ sum, is emulated by a loop that XORs bytes of the carry string with bytes of
 the $P$ string. While this adds another n time in the software solution, it
 would implement only another $2\Delta t$ in a hardware solution, since it would
 bo only two more logic gates for each bit, all operating in parallel.
+
+\pagebreak
 
 Algorithm \ref{alg:pseudo}
 shows the basic implementation of this simulation:
@@ -137,6 +157,8 @@ shows the basic implementation of this simulation:
 \EndFor
 \end{algorithmic}
 \end{algorithm}
+
+\pagebreak
 
 \begin{table}[H]
 	\caption{Inputs, Sum, and Computation time}
@@ -181,6 +203,8 @@ short of the speed of its hardware implementation. However, it does match very
 closely the speed of a ripple-carry add on the 8051 microcontroller, changing
 only the constant in the time-complexity.
 
+\pagebreak
+
 \section{Summary and Conclusion}
 
 Upon testing we found that because the carry lookahead adder must be
@@ -189,6 +213,8 @@ adding the two values together. With that said, we were still successful in
 creating and implementing the carry lookahead adder, and, if given access to
 different hardware, we would be able to lower the execution time for the
 addition.
+
+\pagebreak
 
 \section{Source Code}\label{sec:code}
 
