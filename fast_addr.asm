@@ -104,7 +104,9 @@ BITE:   ANL C, 0E0H    ; intermediate = Ci AND P(i+1)
         MOV B, A       ; replace byte in R3
         MOV A, @R1     ; reload P from mem
         DJNZ R4, BITE  ; repeat for whole byte
-        MOV @R0, B     ; replace C/G in memory
+        MOV A, B
+        RL A           ; rotate C/G string to align carrys over correct bits
+        MOV @R1, A     ; replace C/G in memory
 
         DEC R0
         DEC R1
