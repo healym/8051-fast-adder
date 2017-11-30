@@ -94,6 +94,7 @@ LOAD:   MOV A, @R0     ; temp hold for byte of R6 data
 CARRY:  MOV B, @R1
         MOV A, @R0
         MOV R4, #8H    ; set counter for 8 rotations
+        MOV 0D6H, C    ; store carry-in
 BITE:   ANL C, 0E0H    ; intermediate = Ci AND P(i+1)
         ORL C, 0F0H
         MOV 0F0H, C    ; save Ci into C as well as R3.0
@@ -105,8 +106,13 @@ BITE:   ANL C, 0E0H    ; intermediate = Ci AND P(i+1)
         MOV A, @R1     ; reload P from mem
         DJNZ R4, BITE  ; repeat for whole byte
         MOV A, B
-        RL A           ; rotate C/G string to align carrys over correct bits
-        MOV @R1, A     ; replace C/G in memory
+        MOV 0D5H, C    ; store carry-out
+        CLR C
+        RLC A          ; rotate C/G string to align carrys over correct bits
+        MOV C, 0D5H    ; restore carry-out
+        JNB 0D6H, NOINC
+        INC A          ; increment if there was a carry-in
+NOINC   MOV @R1, A     ; replace C/G in memory
 
         DEC R0
         DEC R1
