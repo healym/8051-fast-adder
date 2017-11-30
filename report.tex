@@ -59,8 +59,44 @@ XORing the first input with the second input and XORing the result of that
 operation with the carry string gives the logical equivalent of adding the two
 numbers directly.
 
+There are only two registers in the 8051($R0$ and $R1$) that can be used with
+indirect addressing. This means that we could only have two pointers to our data
+at a time. Since we planned on having up to five strings of stored
+data($A, B, P, G,$ and Carry), we know that we had to reuse memory. To solve this,
+we had $P$ replace input $A$ and $G$ replace input $B$ in memory, and then had the
+carry string overwrite each bit of the generate string one by one. We knew this
+was a workable solution, since only the carry depends on the $G$ string, and the
+final sum depends only on the $P$ string and the carry string.
+
+Since bitwise operations could only be performed on the carry bit and a single
+bit of either the $A$ register or the $B$ register, and only the $A$ register
+can be rotated(which was necessary for our generation of the carry string,
+which can be seen in the included source code), we were forced to constantly
+move data from the $A$ register into memory as temporary storage, while the $B$
+register was moved to $A$ for rotation. In hindsight, this could have been
+accomplished much more easily with a simple \texxttt{SWAP} command, but we did
+not feel that the performance increase such a change would provide was worth the
+additional effort of a refactor.
+
+Since we needed to include the total number of cycles that our operation took
+to complete, we needed to start and stop a timer before and after the operation,
+respectively. Timer mode 1 was chosen, as it was 16 bit, and so could run for
+the longest amount of time without overflowing. This choice was not arbitrary,
+as any timer that would overflow would cause us to need to check for timer
+overflow after every instruction, and increment some form of counter to account
+for the wraparound. This would have also added instructions(and so cycles)
+to our program that were completely useless for the actual addition. We ensured
+that our timer never overflowed during our tests, which included the largest
+input size we could account for, by checking the value of the $TF1$ flag at the
+end of execution. Since it was never set, we assumed it safe to just let the
+timer run unmolested until the end of execution, and then read the $TH1$ and
+$TL1$ bytes to see the total time elapsed.
+
+We chose a fixed-baudrate serial mode, since doing any form of variable
+baudrate would require the use of another timer, and unnecessarily complicate
+the program further.
+
 \section{Results and Discussion}\label{sec:discuss}
-% edit here
 
 By first generating our Propogate($P$) and Generate($G$) strings from the input,
 and then stepping through our carry string and deriving each bit from the
