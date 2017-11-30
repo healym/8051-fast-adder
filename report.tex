@@ -23,7 +23,15 @@
 
 
 \begin{abstract}
-% write after results calculated
+Carry lookahead adders are one of the mose common fast-adder architectures
+used in high performance computing to date. They allow for arbitrarily large
+summations with only $O(log(n))$ complexity, rather than the $O(n)$ complexity
+of a traditional ripple-carry adder.
+
+The purpose of this project is to implement a simulation of the execution
+of a carry lookahead adder using the Intel 8051 architecture. Although this
+simulation cannot achieve the performance of a hardware implementation, it
+serves as a proof of concept for a carry lookahead adder.
 
 \end{abstract}
 
@@ -41,11 +49,11 @@ as we are unable to calculate multiple things at once, as we could were we
 building a hardware model of a carry lookahead adder.
 
 \section{Approach}\label{sec:approach}
-Using the notes given in class it can be seen that in order to determine the
+Using the notes given in class, it can be seen that in order to determine the
 carry value of a certain bit operation can be done by looking at the previous
 pair of bits and finding their generate and propagate values and comparing the
 propagate value to the carry of the previous bit operation. After a string of
-carries is created then all that has to be done is two XOR operations because
+carries is created then all that must be done is two XOR operations because
 XORing the first input with the second input and XORing the result of that
 operation with the carry string gives the logical equivalent of adding the two
 numbers directly.
@@ -96,31 +104,32 @@ shows the basic implementation of this simulation:
 \begin{table}
 	\caption{Input Size vs Computation Time}
 	\label{tab:time}
+	\resizebox{3.5in}{!}{
 	\begin{tabular}{|r|r|l|l|}
-	\hline
-	\textbf{Operand 1} & \textbf{Operand 2} & \textbf{Sum} & \textbf{Time(clock pulses)}\\
-	\hline
-	$0x8A$ & $0x25$ & $0xAF$ & $0xA0$\\
-	\hline
-	$0x1FFF$ & $0xA222$ & $0xC111$ & $0x12E$\\
-	\hline
-	$0x3EFF$ & $0x8AAA$ & $0xC9A9$ & $0x12E$\\
-	\hline
-	$0x254621$ & $0xAAAAAA$ & $0xCFF0CB$ & $0x01D4$\\
-	\hline
-	$0x8532AA$ & $0x243699$ & $0xA96943$ & $0x01D5$\\
-	\hline
-	$0x23456789$ & $0x98765432$ & $0xBBBBBBBB$ & $0x026A$\\
-	\hline
-	$0xABABABAB$ & $0x11111111$ & $0xBCBCBCBC$ & $0x04C2$\\
-	\hline
-	$0xC1C1C1C1C1$ & $0x1C1C1C1C1C$ & $0xDDDDDDDDDD$ & $0x0300$\\
-	\hline
-	$0x123456789ABC$ & $0x123456789ABC$ & $0x2468ACF13578$ & $0x0396$\\
-	\hline
-	$0x1234567C1C1C1C$ & $0x11AAAAAA8532AA$ & $0x23DF0126A14EC6$ & $0x042E$\\
-	\hline
-	\end{tabular}
+		\hline
+		\textbf{Operand 1} & \textbf{Operand 2} & \textbf{Sum} & \textbf{Time(clock pulses)}\\
+		\hline
+		$0x8A$ & $0x25$ & $0xAF$ & $0xA0$\\
+		\hline
+		$0x1FFF$ & $0xA222$ & $0xC111$ & $0x12E$\\
+		\hline
+		$0x3EFF$ & $0x8AAA$ & $0xC9A9$ & $0x12E$\\
+		\hline
+		$0x254621$ & $0xAAAAAA$ & $0xCFF0CB$ & $0x01D4$\\
+		\hline
+		$0x8532AA$ & $0x243699$ & $0xA96943$ & $0x01D5$\\
+		\hline
+		$0x23456789$ & $0x98765432$ & $0xBBBBBBBB$ & $0x026A$\\
+		\hline
+		$0xABABABAB$ & $0x11111111$ & $0xBCBCBCBC$ & $0x04C2$\\
+		\hline
+		$0xC1C1C1C1C1$ & $0x1C1C1C1C1C$ & $0xDDDDDDDDDD$ & $0x0300$\\
+		\hline
+		$0x123456789ABC$ & $0x123456789ABC$ & $0x2468ACF13578$ & $0x0396$\\
+		\hline
+		$0x1234567C1C1C1C$ & $0x11AAAAAA8532AA$ & $0x23DF0126A14EC6$ & $0x042E$\\
+		\hline
+	\end{tabular}}
 \end{table}
 
 As can be seen in Fig. \ref{tab:time}, this software simulation falls far
@@ -148,17 +157,17 @@ the hardware at our disposal this is the best that we can do.
 
 \section{Source Code}\label{sec:code}
 
-\lstinputlisting[language=Assembler, firstline=13, basicstyle=\tiny]
+\lstinputlisting[firstline=13, basicstyle=\tiny]
 {fast_addr.asm}
 
 \begin{thebibliography}{99}
 
-	@misc{franz1972parallel,
+	@misc{patent,
 	  title={Parallel binary carry look-ahead adder system},
 	  author={Franz, S. and Dieter, S.},
 	  url={https://www.google.com/patents/US3700875},
 	  year={1972},
-	  month=oct # "~24",
+	  month=oct \# "~24",
 	  publisher={Google Patents},
 	  note={US Patent 3,700,875}
 	}
