@@ -23,7 +23,7 @@
 
 
 \begin{abstract}
-Carry lookahead adders are one of the mose common fast-adder architectures
+Carry lookahead adders are one of the most common fast-adder architectures
 used in high performance computing to date. They allow for arbitrarily large
 summations with only $O(log(n))$ complexity, rather than the $O(n)$ complexity
 of a traditional ripple-carry adder.
@@ -49,9 +49,9 @@ as we are unable to calculate multiple things at once, as we could were we
 building a hardware model of a carry lookahead adder.
 
 \section{Approach}\label{sec:approach}
-Using the notes given in class, it can be seen that in order to determine the
-carry value of a certain bit operation can be done by looking at the previous
-pair of bits and finding their generate and propagate values and comparing the
+The carry value of a certain bit addition
+can be determined by looking at the previous
+pair of bits, finding their generate and propagate values, and comparing the
 propagate value to the carry of the previous bit operation. After a string of
 carries is created then all that must be done is two XOR operations because
 XORing the first input with the second input and XORing the result of that
