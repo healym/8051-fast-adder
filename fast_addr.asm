@@ -112,7 +112,7 @@ BITE:   ANL C, 0E0H    ; intermediate = Ci AND P(i+1)
         MOV C, 0D5H    ; restore carry-out
         JNB 0D6H, NOINC
         INC A          ; increment if there was a carry-in
-NOINC   MOV @R1, A     ; replace C/G in memory
+NOINC:  MOV @R1, A     ; replace C/G in memory
 
         DEC R0
         DEC R1
